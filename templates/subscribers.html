@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Subscribers{% endblock %}
+{% block content %}
+<h1>Subscribers</h1>
+
+<div class="action-bar">
+    <div class="filters">
+        <form method="GET" action="{{ url_for('subscribers') }}" class="inline-form">
+            <select name="tag" onchange="this.form.submit()">
+                <option value="">All Tags</option>
+                {% for tag in tags %}
+                <option value="{{ tag.name }}" {% if current_tag == tag.name %}selected{% endif %}>{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    <div class="actions">
+        <a href="{{ url_for('export_subscribers') }}" class="btn btn-secondary">Export CSV</a>
+    </div>
+</div>
+
+<!-- Add Subscriber Form -->
+<div class="card">
+    <h3>Add Subscriber</h3>
+    <form method="POST" action="{{ url_for('add_subscriber') }}" class="form-inline">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="text" name="department" placeholder="Department">
+        <input type="text" name="tags" placeholder="Tags (comma-separated)">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
+
+<!-- Import CSV -->
+<div class="card">
+    <h3>Import from CSV</h3>
+    <form method="POST" action="{{ url_for('import_subscribers') }}" enctype="multipart/form-data" class="form-inline">
+        <input type="file" name="csv_file" accept=".csv" required>
+        <button type="submit" class="btn btn-secondary">Import</button>
+    </form>
+    <p class="help-text">CSV must have columns: name, email, department</p>
+</div>
+
+<!-- Subscriber List -->
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Tags</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sub in subscribers %}
+        <tr>
+            <td>{{ sub.name }}</td>
+            <td>{{ sub.email }}</td>
+            <td>{{ sub.department }}</td>
+            <td>{% for tag in sub.tags %}<span class="tag">{{ tag.name }}</span>{% endfor %}</td>
+            <td>
+                {% if sub.is_active %}
+                <span class="badge badge-sent">Active</span>
+                {% else %}
+                <span class="badge badge-draft">Inactive</span>
+                {% endif %}
+            </td>
+            <td>
+                <form method="POST" action="{{ url_for('toggle_subscriber', subscriber_id=sub.id) }}" style="display:inline">
+                    <button type="submit" class="btn btn-small">
+                        {{ "Deactivate" if sub.is_active else "Activate" }}
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if pagination.pages > 1 %}
+<div class="pagination">
+    {% if pagination.has_prev %}
+    <a href="{{ url_for('subscribers', page=pagination.prev_num, tag=current_tag) }}">&laquo; Previous</a>
+    {% endif %}
+    <span>Page {{ pagination.page }} of {{ pagination.pages }}</span>
+    {% if pagination.has_next %}
+    <a href="{{ url_for('subscribers', page=pagination.next_num, tag=current_tag) }}">Next &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}{{ campaign.name }}{% endblock %}
+{% block content %}
+<h1>{{ campaign.name }}</h1>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ campaign.total_sent }}</div>
+        <div class="stat-label">Emails Sent</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ campaign.total_opened }}</div>
+        <div class="stat-label">Opens</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ campaign.open_rate }}%</div>
+        <div class="stat-label">Open Rate</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Campaign Details</h3>
+    <p><strong>Subject:</strong> {{ campaign.subject }}</p>
+    <p><strong>Status:</strong> <span class="badge badge-{{ campaign.status }}">{{ campaign.status }}</span></p>
+    <p><strong>Target:</strong> {{ campaign.target_tag or "All subscribers" }}</p>
+    {% if campaign.scheduled_at %}
+    <p><strong>Scheduled:</strong> {{ campaign.scheduled_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+    {% endif %}
+    {% if campaign.sent_at %}
+    <p><strong>Sent:</strong> {{ campaign.sent_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+    {% endif %}
+</div>
+
+{% if logs %}
+<section class="section">
+    <h3>Delivery Log</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Subscriber</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Opened</th>
+                <th>Sent At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.subscriber.name }}</td>
+                <td>{{ log.subscriber.email }}</td>
+                <td><span class="badge badge-{{ log.status }}">{{ log.status }}</span></td>
+                <td>
+                    {% if log.opened %}
+                    ✅ {{ log.opened_at.strftime('%b %d, %I:%M %p') if log.opened_at else '' }}
+                    {% else %}
+                    —
+                    {% endif %}
+                </td>
+                <td>{{ log.sent_at.strftime('%b %d, %I:%M %p') if log.sent_at else '—' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endif %}
+
+<div class="action-bar">
+    {% if campaign.status != 'sent' %}
+    <form method="POST" action="{{ url_for('send_campaign_route', campaign_id=campaign.id) }}">
+        <button type="submit" class="btn btn-primary">Send Now</button>
+    </form>
+    {% endif %}
+    <a href="{{ url_for('campaigns') }}" class="btn btn-secondary">Back to Campaigns</a>
+</div>
+{% endblock %}

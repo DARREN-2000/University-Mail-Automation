@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UniMail{% endblock %} — University Email Marketing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📧 UniMail</div>
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">Dashboard</a>
+            <a href="{{ url_for('subscribers') }}" class="{% if request.endpoint == 'subscribers' %}active{% endif %}">Subscribers</a>
+            <a href="{{ url_for('campaigns') }}" class="{% if request.endpoint in ('campaigns', 'create_campaign', 'campaign_detail') %}active{% endif %}">Campaigns</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>UniMail — University Email Marketing Automation &copy; 2025</p>
+    </footer>
+</body>
+</html>
