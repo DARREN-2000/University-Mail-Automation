@@ -1,0 +1,260 @@
+/* UniMail — University Email Marketing Automation */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navigation */
+.navbar {
+    background: #2c3e50;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-brand {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    background: #34495e;
+}
+
+/* Container */
+.container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.stat-label {
+    color: #7f8c8d;
+    margin-top: 0.5rem;
+}
+
+/* Cards */
+.card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Tables */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+}
+
+.data-table th, .data-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+.data-table tr:hover {
+    background: #f8f9fa;
+}
+
+.data-table a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.badge-draft { background: #f0f0f0; color: #666; }
+.badge-scheduled { background: #fff3cd; color: #856404; }
+.badge-sent { background: #d4edda; color: #155724; }
+.badge-pending { background: #cce5ff; color: #004085; }
+.badge-failed { background: #f8d7da; color: #721c24; }
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.85; }
+
+.btn-primary { background: #2980b9; color: #fff; }
+.btn-secondary { background: #95a5a6; color: #fff; }
+.btn-small { padding: 0.3rem 0.8rem; font-size: 0.8rem; }
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.form-inline {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.form-inline input, .form-inline select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Tags */
+.tag {
+    display: inline-block;
+    background: #e8f4fd;
+    color: #2980b9;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    margin-right: 0.3rem;
+}
+
+/* Flash Messages */
+.flash-messages {
+    margin-bottom: 1rem;
+}
+
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.flash-success { background: #d4edda; color: #155724; }
+.flash-error { background: #f8d7da; color: #721c24; }
+
+/* Action Bar */
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Section */
+.section {
+    margin-top: 2rem;
+}
+
+/* Pagination */
+.pagination {
+    text-align: center;
+    padding: 1rem;
+}
+
+.pagination a {
+    color: #2980b9;
+    text-decoration: none;
+    margin: 0 0.5rem;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #999;
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 0.5rem;
+}
+
+.text-muted { color: #999; }
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2rem;
+    color: #999;
+    font-size: 0.85rem;
+}

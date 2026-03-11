@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Campaigns{% endblock %}
+{% block content %}
+<h1>Campaigns</h1>
+
+<div class="action-bar">
+    <a href="{{ url_for('create_campaign') }}" class="btn btn-primary">+ New Campaign</a>
+</div>
+
+{% if campaigns %}
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Subject</th>
+            <th>Target</th>
+            <th>Status</th>
+            <th>Sent</th>
+            <th>Opens</th>
+            <th>Open Rate</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for campaign in campaigns %}
+        <tr>
+            <td><a href="{{ url_for('campaign_detail', campaign_id=campaign.id) }}">{{ campaign.name }}</a></td>
+            <td>{{ campaign.subject }}</td>
+            <td>{{ campaign.target_tag or "All" }}</td>
+            <td><span class="badge badge-{{ campaign.status }}">{{ campaign.status }}</span></td>
+            <td>{{ campaign.total_sent }}</td>
+            <td>{{ campaign.total_opened }}</td>
+            <td>{{ campaign.open_rate }}%</td>
+            <td>
+                {% if campaign.status != 'sent' %}
+                <form method="POST" action="{{ url_for('send_campaign_route', campaign_id=campaign.id) }}" style="display:inline">
+                    <button type="submit" class="btn btn-primary btn-small">Send Now</button>
+                </form>
+                {% else %}
+                <span class="text-muted">Sent</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty-state">No campaigns yet. <a href="{{ url_for('create_campaign') }}">Create your first campaign</a>.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_subscribers }}</div>
+        <div class="stat-label">Active Subscribers</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_campaigns }}</div>
+        <div class="stat-label">Campaigns</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_emails_sent }}</div>
+        <div class="stat-label">Emails Sent</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.open_rate }}%</div>
+        <div class="stat-label">Open Rate</div>
+    </div>
+</div>
+
+<section class="section">
+    <h2>Recent Campaigns</h2>
+    {% if recent_campaigns %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Sent</th>
+                <th>Open Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in recent_campaigns %}
+            <tr>
+                <td><a href="{{ url_for('campaign_detail', campaign_id=campaign.id) }}">{{ campaign.name }}</a></td>
+                <td>{{ campaign.subject }}</td>
+                <td><span class="badge badge-{{ campaign.status }}">{{ campaign.status }}</span></td>
+                <td>{{ campaign.total_sent }}</td>
+                <td>{{ campaign.open_rate }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">No campaigns yet. <a href="{{ url_for('create_campaign') }}">Create your first campaign</a>.</p>
+    {% endif %}
+</section>
+{% endblock %}
