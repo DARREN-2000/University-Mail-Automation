@@ -101,6 +101,10 @@ This repository includes `render.yaml` for a free Render web service setup.
 4. Set `BASE_URL` to your Render URL (for tracking links), for example:
    - `https://university-mail-automation.onrender.com`
 
+> Note: The default `DATABASE_URL` in `render.yaml` uses SQLite for a free/demo setup.
+> On Render free instances, filesystem data is ephemeral, so data can reset on redeploy/restart.
+> For persistent data, switch `DATABASE_URL` to a managed database.
+
 The app binds to `PORT` automatically and can also run locally with:
 
 ```bash
