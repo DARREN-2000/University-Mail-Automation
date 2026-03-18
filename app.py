@@ -7,6 +7,7 @@ and automated communications for university events and announcements.
 import csv
 import io
 import logging
+import os
 from datetime import datetime
 
 from flask import (
@@ -25,6 +26,14 @@ from email_service import get_dashboard_stats, mail, record_open, send_campaign,
 from models import Campaign, EmailLog, Subscriber, Tag, db
 
 logging.basicConfig(level=logging.INFO)
+
+
+def get_server_config():
+    """Get host/port for local and hosted environments."""
+    return {
+        "host": os.environ.get("HOST", "0.0.0.0"),
+        "port": int(os.environ.get("PORT", 5000)),
+    }
 
 
 def create_app(config_class=Config):
@@ -304,4 +313,4 @@ def register_routes(app):
 
 if __name__ == "__main__":
     app = create_app()
-    app.run()
+    app.run(**get_server_config())

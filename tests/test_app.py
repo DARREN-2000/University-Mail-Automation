@@ -5,7 +5,7 @@ import io
 
 import pytest
 
-from app import create_app
+from app import create_app, get_server_config
 from config import TestConfig
 from models import Campaign, EmailLog, Subscriber, Tag, db
 
@@ -380,3 +380,21 @@ class TestAPI:
         data = response.get_json()
         assert len(data) == 1
         assert data[0]["name"] == "Spring Event"
+
+
+class TestServerConfig:
+    def test_server_config_defaults(self, monkeypatch):
+        monkeypatch.delenv("HOST", raising=False)
+        monkeypatch.delenv("PORT", raising=False)
+
+        config = get_server_config()
+        assert config["host"] == "0.0.0.0"
+        assert config["port"] == 5000
+
+    def test_server_config_from_environment(self, monkeypatch):
+        monkeypatch.setenv("HOST", "127.0.0.1")
+        monkeypatch.setenv("PORT", "8080")
+
+        config = get_server_config()
+        assert config["host"] == "127.0.0.1"
+        assert config["port"] == 8080
