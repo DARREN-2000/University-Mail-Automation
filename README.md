@@ -73,6 +73,29 @@ Visit `http://localhost:5000` in your browser.
 python -m pytest tests/ -v
 ```
 
+## GitHub Pages Web App
+
+This repository now includes a static web app in `docs/` that works on GitHub Pages.
+
+### What it does
+
+- Dashboard with live stats
+- Add and list subscribers
+- Import/export subscribers as CSV
+- Create campaigns and simulate sends
+- Local data persistence in browser `localStorage`
+
+### Deploy to GitHub Pages
+
+1. In GitHub, open **Settings → Pages**.
+2. Set **Source** to **GitHub Actions**.
+3. Push to `main` (or run the workflow manually from **Actions**).
+4. The site is deployed by `.github/workflows/deploy-pages.yml`.
+
+After deployment, your app will be available at:
+
+`https://<your-username>.github.io/University-Mail-Automation/`
+
 ## Project Structure
 
 ```
@@ -90,8 +113,14 @@ python -m pytest tests/ -v
 │   └── campaign_detail.html
 ├── static/
 │   └── style.css       # Application styles
+├── docs/               # GitHub Pages static app
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+├── .github/workflows/
+│   └── deploy-pages.yml # GitHub Pages deployment workflow
 └── tests/
-    └── test_app.py     # Unit and integration tests
+    └── test_app.py      # Unit and integration tests
 ```
 
 ## Use Case Example
