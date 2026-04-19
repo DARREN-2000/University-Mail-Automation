@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniMail Web App (GitHub Pages)</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>UniMail</h1>
+      <p>University Email Marketing Automation — GitHub Pages Edition</p>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <h2>Dashboard</h2>
+        <div class="stats">
+          <article>
+            <h3 id="totalSubscribers">0</h3>
+            <p>Total Subscribers</p>
+          </article>
+          <article>
+            <h3 id="activeSubscribers">0</h3>
+            <p>Active Subscribers</p>
+          </article>
+          <article>
+            <h3 id="totalCampaigns">0</h3>
+            <p>Campaigns</p>
+          </article>
+          <article>
+            <h3 id="openRate">0%</h3>
+            <p>Open Rate</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="grid">
+        <section class="card">
+          <h2>Add Subscriber</h2>
+          <form id="subscriberForm">
+            <label>Name<input name="name" required /></label>
+            <label>Email<input name="email" type="email" required /></label>
+            <label>Department<input name="department" /></label>
+            <button type="submit">Add Subscriber</button>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Create Campaign</h2>
+          <form id="campaignForm">
+            <label>Name<input name="name" required /></label>
+            <label>Subject<input name="subject" required /></label>
+            <label>Body<textarea name="body" rows="4" required></textarea></label>
+            <button type="submit">Create Campaign</button>
+          </form>
+        </section>
+      </section>
+
+      <section class="grid">
+        <section class="card">
+          <div class="row">
+            <h2>Subscribers</h2>
+            <button id="exportSubscribers" type="button">Export CSV</button>
+          </div>
+          <label class="file-input">Import CSV<input id="importSubscribers" type="file" accept=".csv" /></label>
+          <ul id="subscriberList" class="list"></ul>
+        </section>
+
+        <section class="card">
+          <h2>Campaigns</h2>
+          <ul id="campaignList" class="list"></ul>
+        </section>
+      </section>
+
+      <p id="notice" aria-live="polite"></p>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

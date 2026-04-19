@@ -1,0 +1,158 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f7fb;
+  color: #17233a;
+}
+
+.topbar {
+  background: #102a43;
+  color: #fff;
+  padding: 1rem 1.25rem;
+}
+
+.topbar h1,
+.topbar p {
+  margin: 0;
+}
+
+.topbar p {
+  opacity: 0.8;
+  margin-top: 0.35rem;
+}
+
+.layout {
+  max-width: 1000px;
+  margin: 1rem auto;
+  padding: 0 1rem 1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.stats article {
+  background: #f8fafc;
+  padding: 0.8rem;
+  border-radius: 10px;
+}
+
+.stats h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-size: 0.9rem;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  margin-top: 0.35rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  padding: 0.6rem 0.7rem;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.row button {
+  width: auto;
+}
+
+.file-input {
+  display: inline-block;
+  margin: 0 0 0.7rem;
+}
+
+.file-input input {
+  width: auto;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.7rem;
+  margin-bottom: 0.55rem;
+  background: #fff;
+}
+
+.list .meta {
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-left: 0.4rem;
+}
+
+.pill.sent {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pill.draft {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+#notice {
+  margin: 0.5rem 0 0;
+  color: #0f766e;
+}
