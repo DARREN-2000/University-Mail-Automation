@@ -137,6 +137,34 @@ function downloadFile(name, content, type) {
   URL.revokeObjectURL(url);
 }
 
+function parseCsvLine(line) {
+  const cells = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    const next = line[i + 1];
+
+    if (char === "\"") {
+      if (inQuotes && next === "\"") {
+        current += "\"";
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === "," && !inQuotes) {
+      cells.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  cells.push(current.trim());
+  return cells;
+}
+
 document.getElementById("subscriberForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const form = e.currentTarget;
@@ -200,10 +228,10 @@ document.getElementById("importSubscribers").addEventListener("change", async (e
   if (!file) return;
 
   const text = await file.text();
-  const lines = text.split(/\r?\n/).filter(Boolean);
+  const lines = text.split(/\r?\n/).filter((line) => line.trim().length > 0);
   if (!lines.length) return;
 
-  const headers = lines[0].split(",").map((h) => h.trim().toLowerCase());
+  const headers = parseCsvLine(lines[0]).map((h) => h.trim().toLowerCase());
   const nameIdx = headers.indexOf("name");
   const emailIdx = headers.indexOf("email");
   const deptIdx = headers.indexOf("department");
@@ -215,7 +243,7 @@ document.getElementById("importSubscribers").addEventListener("change", async (e
 
   let added = 0;
   for (const line of lines.slice(1)) {
-    const cols = line.split(",").map((c) => c.trim());
+    const cols = parseCsvLine(line);
     const name = cols[nameIdx] || "";
     const email = (cols[emailIdx] || "").toLowerCase();
     const department = deptIdx >= 0 ? cols[deptIdx] || "" : "";
