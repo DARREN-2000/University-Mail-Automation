@@ -106,6 +106,24 @@ button:hover {
   width: auto;
 }
 
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  width: auto;
+}
+
+.danger {
+  background: #dc2626;
+}
+
+.danger:hover {
+  background: #b91c1c;
+}
+
 .file-input {
   display: inline-block;
   margin: 0 0 0.7rem;
@@ -155,4 +173,11 @@ button:hover {
 #notice {
   margin: 0.5rem 0 0;
   color: #0f766e;
+  min-height: 1.2rem;
+}
+
+.meta-text {
+  margin: 0.6rem 0 0;
+  color: #475569;
+  font-size: 0.95rem;
 }

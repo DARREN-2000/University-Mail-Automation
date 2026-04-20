@@ -1,54 +1,86 @@
-# UniMail — University Email Marketing Automation
+# UniMail — University Mail Automation
 
-A practical email marketing automation system built for university use cases. Manage subscriber lists, create and send email campaigns, track engagement, and automate communications for campus events and announcements.
+A production-ready university email marketing project with:
+- **Flask backend app** for subscriber + campaign workflows
+- **Static GitHub Pages web app** for instant browser-based demos
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Flask](https://img.shields.io/badge/Flask-3.1.0-black)
+![Tests](https://img.shields.io/badge/tests-pytest-brightgreen)
+
+---
+
+## Live Deployment
+
+- **Expected GitHub Pages URL:** `https://darren-2000.github.io/University-Mail-Automation/`
+- **Deploy workflow file:** `.github/workflows/deploy-pages.yml`
+- **Trigger:** push to `main` or manual workflow dispatch
+
+> If the URL is not loading yet, ensure:
+> 1. This branch is merged to `main`
+> 2. Repository **Settings → Pages → Source** is set to **GitHub Actions**
+> 3. Latest **Deploy GitHub Pages** workflow run on `main` is successful
+
+---
 
 ## Features
 
-- **Subscriber Management** — Add, import (CSV), export, activate/deactivate subscribers
-- **Tag-Based Segmentation** — Organize subscribers by department, year, interest (e.g. `engineering`, `freshman`)
-- **Campaign Builder** — Create email campaigns with HTML content, target specific segments, and schedule sends
-- **Automated Welcome Emails** — New subscribers automatically receive a welcome message
-- **Open Tracking** — Embedded tracking pixel records when recipients open emails
-- **Dashboard & Analytics** — View total subscribers, campaigns sent, open rates at a glance
-- **REST API** — Programmatic access to stats, subscribers, and campaigns (`/api/stats`, `/api/subscribers`, `/api/campaigns`)
-- **CSV Import/Export** — Bulk manage subscriber lists via CSV files
+### Core Flask App
+- Subscriber management (add/import/export, activate/deactivate)
+- Tag-based segmentation
+- Campaign creation and sending
+- Open tracking
+- REST APIs (`/api/stats`, `/api/subscribers`, `/api/campaigns`)
+- Automated welcome email support
 
-## Tech Stack
+### GitHub Pages Web App (`docs/`)
+- Dashboard metrics
+- Subscriber create/list
+- CSV import/export
+- Campaign create/send simulation
+- Local browser persistence (`localStorage`)
+- Quick demo actions (load sample data / clear data)
 
-| Layer       | Technology       |
-|-------------|------------------|
-| Backend     | Python / Flask   |
-| Database    | SQLite (via SQLAlchemy) |
-| Email       | Flask-Mail (SMTP)|
-| Scheduling  | APScheduler      |
-| Frontend    | Jinja2 Templates + CSS |
-| Testing     | pytest           |
+---
 
-## Getting Started
+## Screenshots
+
+### 1) Fresh dashboard state
+![Dashboard empty](docs/assets/screenshots/01-dashboard-empty.png)
+
+### 2) Demo data loaded
+![Dashboard with demo data](docs/assets/screenshots/02-dashboard-demo.png)
+
+### 3) Campaign sent and KPI updated
+![Campaign sent](docs/assets/screenshots/03-campaign-sent.png)
+
+---
+
+## Short Demo Clips
+
+### Demo 1 — Dashboard + data bootstrapping
+![Demo overview](docs/assets/videos/demo-overview.gif)
+
+### Demo 2 — Campaign send flow
+![Demo campaign send](docs/assets/videos/demo-campaign-send.gif)
+
+---
+
+## Quick Start (Flask App)
 
 ### Prerequisites
-
 - Python 3.10+
 
 ### Installation
-
 ```bash
-# Clone the repository
-git clone https://github.com/DARREN-2000/to.git
-cd to
-
-# Create a virtual environment (recommended)
+git clone https://github.com/DARREN-2000/University-Mail-Automation.git
+cd University-Mail-Automation
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Configuration
-
-Create a `.env` file (optional) to configure email settings:
-
+### Configuration (optional `.env`)
 ```env
 SECRET_KEY=your-secret-key
 MAIL_SERVER=smtp.gmail.com
@@ -59,77 +91,106 @@ MAIL_PASSWORD=your-app-password
 MAIL_DEFAULT_SENDER=your-email@gmail.com
 ```
 
-### Run the Application
-
+### Run
 ```bash
 python app.py
 ```
 
-Visit `http://localhost:5000` in your browser.
+Open: `http://localhost:5000`
 
-### Run Tests
+---
+
+## Quick Start (GitHub Pages App)
+
+Run locally:
+```bash
+cd docs
+python -m http.server 4173
+```
+
+Open: `http://127.0.0.1:4173/index.html`
+
+---
+
+## Testing
 
 ```bash
 python -m pytest tests/ -v
 ```
 
-## GitHub Pages Web App
+Current suite status in this branch: **31 passed**.
 
-This repository now includes a static web app in `docs/` that works on GitHub Pages.
+---
 
-### What it does
+## Production-Readiness Notes
 
-- Dashboard with live stats
-- Add and list subscribers
-- Import/export subscribers as CSV
-- Create campaigns and simulate sends
-- Local data persistence in browser `localStorage`
+Implemented hardening for the static app:
+- safer CSV parsing (handles quoted fields)
+- explicit required-field validation
+- local data management actions (seed/clear)
+- robust localStorage save error handling
+- improved accessibility semantics for status messages
 
-### Deploy to GitHub Pages
+For backend production use, recommended next steps:
+- move from SQLite to managed Postgres
+- deploy Flask behind Gunicorn + reverse proxy
+- add secrets management (GitHub/Cloud secret store)
+- add structured app logging + monitoring
 
-1. In GitHub, open **Settings → Pages**.
-2. Set **Source** to **GitHub Actions**.
-3. Push to `main` (or run the workflow manually from **Actions**).
-4. The site is deployed by `.github/workflows/deploy-pages.yml`.
+---
 
-After deployment, your app will be available at:
+## Deployment Workflow (GitHub Pages)
 
-`https://<your-username>.github.io/University-Mail-Automation/`
+`deploy-pages.yml` publishes `docs/` as the Pages artifact.
+
+```yaml
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+```
+
+Deployment steps:
+1. Checkout
+2. Configure Pages
+3. Upload `docs/`
+4. Deploy to Pages
+
+---
 
 ## Project Structure
 
-```
-├── app.py              # Flask application and routes
-├── models.py           # Database models (Subscriber, Campaign, EmailLog, Tag)
-├── email_service.py    # Email sending and tracking logic
-├── config.py           # Application configuration
-├── requirements.txt    # Python dependencies
-├── templates/          # Jinja2 HTML templates
-│   ├── base.html
-│   ├── dashboard.html
-│   ├── subscribers.html
-│   ├── campaigns.html
-│   ├── create_campaign.html
-│   └── campaign_detail.html
+```text
+.
+├── app.py
+├── models.py
+├── email_service.py
+├── config.py
+├── requirements.txt
+├── templates/
 ├── static/
-│   └── style.css       # Application styles
-├── docs/               # GitHub Pages static app
+├── tests/
+├── docs/
 │   ├── index.html
 │   ├── style.css
-│   └── app.js
-├── .github/workflows/
-│   └── deploy-pages.yml # GitHub Pages deployment workflow
-└── tests/
-    └── test_app.py      # Unit and integration tests
+│   ├── app.js
+│   └── assets/
+│       ├── screenshots/
+│       └── videos/
+└── .github/workflows/
+    └── deploy-pages.yml
 ```
 
-## Use Case Example
+---
 
-A university's Student Activities Office uses UniMail to:
+## API Endpoints
 
-1. **Import** the student mailing list via CSV
-2. **Tag** subscribers by department (`cs`, `engineering`, `business`)
-3. **Create a campaign** announcing the Spring Career Fair, targeting only `engineering` students
-4. **Send** the campaign — each student receives a personalized email
-5. **Track** which students opened the email via the dashboard
-6. **Send follow-up** reminders to boost attendance
+- `GET /api/stats`
+- `GET /api/subscribers`
+- `GET /api/campaigns`
+
+---
+
+## License
+
+Add a license file (`LICENSE`) to define usage terms.

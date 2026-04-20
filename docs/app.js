@@ -1,4 +1,5 @@
 const STORAGE_KEY = "unimail-pages-data";
+const APP_VERSION = "1.1.0";
 
 const defaultData = {
   subscribers: [],
@@ -22,7 +23,11 @@ function load() {
 }
 
 function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    setNotice("Could not save data in browser storage.");
+  }
 }
 
 function uid() {
@@ -31,6 +36,65 @@ function uid() {
 
 function setNotice(msg) {
   document.getElementById("notice").textContent = msg;
+}
+
+function seedDemoData() {
+  const timestamp = Date.now();
+  state = {
+    subscribers: [
+      {
+        id: `${timestamp}-1`,
+        name: "Ada Lovelace",
+        email: "ada@university.edu",
+        department: "Computer Science",
+        isActive: true,
+      },
+      {
+        id: `${timestamp}-2`,
+        name: "Grace Hopper",
+        email: "grace@university.edu",
+        department: "Engineering",
+        isActive: true,
+      },
+      {
+        id: `${timestamp}-3`,
+        name: "Alan Turing",
+        email: "alan@university.edu",
+        department: "Mathematics",
+        isActive: true,
+      },
+    ],
+    campaigns: [
+      {
+        id: `${timestamp}-4`,
+        name: "Spring Career Fair",
+        subject: "Career Fair Registration Open",
+        body: "Join us for the annual spring career fair.",
+        status: "sent",
+        sentCount: 3,
+        openedCount: 2,
+      },
+      {
+        id: `${timestamp}-5`,
+        name: "Hackathon 2026",
+        subject: "Hackathon Kickoff",
+        body: "Registration is now live.",
+        status: "draft",
+        sentCount: 0,
+        openedCount: 0,
+      },
+    ],
+  };
+  save();
+  render();
+  setNotice("Demo data loaded.");
+}
+
+function clearData() {
+  state = structuredClone(defaultData);
+  save();
+  render();
+  setNotice("All local data cleared.");
 }
 
 function render() {
@@ -172,6 +236,11 @@ document.getElementById("subscriberForm").addEventListener("submit", (e) => {
   const email = form.email.value.trim().toLowerCase();
   const department = form.department.value.trim();
 
+  if (!name || !email) {
+    setNotice("Name and email are required.");
+    return;
+  }
+
   if (state.subscribers.some((s) => s.email === email)) {
     setNotice("Subscriber with this email already exists.");
     return;
@@ -197,6 +266,11 @@ document.getElementById("campaignForm").addEventListener("submit", (e) => {
   const name = form.name.value.trim();
   const subject = form.subject.value.trim();
   const body = form.body.value.trim();
+
+  if (!name || !subject || !body) {
+    setNotice("Campaign name, subject, and body are required.");
+    return;
+  }
 
   state.campaigns.unshift({
     id: uid(),
@@ -262,4 +336,16 @@ document.getElementById("importSubscribers").addEventListener("change", async (e
   e.target.value = "";
 });
 
+document.getElementById("seedDemoData").addEventListener("click", () => {
+  seedDemoData();
+});
+
+document.getElementById("clearAllData").addEventListener("click", () => {
+  const confirmed = window.confirm("Clear all local UniMail demo data?");
+  if (confirmed) {
+    clearData();
+  }
+});
+
+setNotice(`UniMail Pages app ready (v${APP_VERSION}).`);
 render();
