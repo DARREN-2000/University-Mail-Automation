@@ -12,7 +12,7 @@ A production-ready university email marketing project with:
 
 ## Live Deployment
 
-- **Expected GitHub Pages URL:** `https://darren-2000.github.io/University-Mail-Automation/`
+- **Expected GitHub Pages URL:** `https://DARREN-2000.github.io/University-Mail-Automation/`
 - **Deploy workflow file:** `.github/workflows/deploy-pages.yml`
 - **Trigger:** push to `main` or manual workflow dispatch
 
