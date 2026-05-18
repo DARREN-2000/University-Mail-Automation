@@ -34,8 +34,8 @@ A practical email marketing automation system built for university use cases. Ma
 
 ```bash
 # Clone the repository
-git clone https://github.com/DARREN-2000/to.git
-cd to
+git clone https://github.com/DARREN-2000/University-Mail-Automation.git
+cd University-Mail-Automation
 
 # Create a virtual environment (recommended)
 python -m venv venv
@@ -57,6 +57,14 @@ MAIL_USE_TLS=true
 MAIL_USERNAME=your-email@gmail.com
 MAIL_PASSWORD=your-app-password
 MAIL_DEFAULT_SENDER=your-email@gmail.com
+DATABASE_URL=sqlite:///marketing.db
+BASE_URL=http://localhost:5000
+```
+
+You can copy `.env.example` and edit it:
+
+```bash
+cp .env.example .env
 ```
 
 ### Run the Application
@@ -67,10 +75,40 @@ python app.py
 
 Visit `http://localhost:5000` in your browser.
 
+## Quick Demo (No SMTP Required)
+
+If you want to demo the UI quickly without configuring email credentials:
+
+1. Start the app with `python app.py`
+2. Open `http://localhost:5000`
+3. Add subscribers from the **Subscribers** page
+4. Create a campaign from **Campaigns → Create Campaign**
+5. Send the campaign (email sends will fail without SMTP, but campaign flow and analytics UI remain demoable)
+
 ### Run Tests
 
 ```bash
 python -m pytest tests/ -v
+```
+
+## Free Deployment (Render)
+
+This repository includes `render.yaml` for a free Render web service setup.
+
+1. Push your code to GitHub
+2. In Render, create a new **Blueprint** and select this repository
+3. Render reads `render.yaml` and provisions the service on the free plan
+4. Set `BASE_URL` to your Render URL (for tracking links), for example:
+   - `https://university-mail-automation.onrender.com`
+
+> Note: The default `DATABASE_URL` in `render.yaml` uses SQLite for a free/demo setup.
+> On Render free instances, filesystem data is ephemeral, so data can reset on redeploy/restart.
+> For persistent data, switch `DATABASE_URL` to a managed database.
+
+The app binds to `PORT` automatically and can also run locally with:
+
+```bash
+python app.py
 ```
 
 ## Project Structure
